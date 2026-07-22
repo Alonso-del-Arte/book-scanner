@@ -1,0 +1,6 @@
+@import "dark.css" (prefers-color-scheme: dark);
+@import "light.css" (prefers-color-scheme: light);
+
+a { text-decoration: none }
+a:hover { font-size: 125%; font-weight: bold }
+a:active { text-decoration: underline }
