@@ -1,0 +1,25 @@
+{
+  "manifest_version": 3,
+  "name": "Book Scanner",
+  "version": "0.9",
+  "icons": [
+    {
+      "src": "images/BookScannerIcon1024.png",
+      "type": "image/png",
+      "sizes": "1024x1024"
+    },
+    {
+      "src": "images/BookScannerIcon512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    },
+    {
+      "src": "images/BookScannerIcon192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "background-color": "#ffffff"
+}
