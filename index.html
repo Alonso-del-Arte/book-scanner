@@ -41,14 +41,15 @@
 
 		<h1>Book Scanner</h1>
         
-        <form>
+        <form name="isbnInput" action="">
             <label for="isbn">ISBN-13</label>
-            <input name="isbn" type="number" />
+            <input name="isbn" type="number" maxlength="13" value="9780000000002" />
+            <button onclick="updateBookInfo()">Look Up</button>
         </form>
         
+        <div style="color: red; font-weight: bold">DRAFT</div>
+        
         <div id="bookInfo">No book scanned yet</div>
-
-		<p>PLACEHOLDER</p>
 
 	</body>
 </html>
