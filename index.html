@@ -7,9 +7,37 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="stylesheet" type="text/css" href="css/main.css" />
         <link rel="icon" href="images/favicon.svg" type="image/svg+xml" />
-        <script type="application/javascript" src="js/openAPIaccess.js"></script>
+        <script type="application/javascript"><!-- 
+            
+            var numInput, bookInfoDiv;
+            
+            async function lookUp(isbn) {
+                const response = await fetch("https://openlibrary.org/isbn/" 
+                                             + isbn);
+                return await response.json()
+            }
+            
+            async function updateBookInfo() {
+                const isbn = numInput.value;
+                try {
+                const bookData = await fetch("https://openlibrary.org/isbn/" 
+                                             + isbn);
+                const titleLine = "<h2>" + bookData.title + "</h2>";
+                const authorLine = "<h3>" + bookData.authors + "</h3>";
+                bookInfoDiv.innerHTML = titleLine + authorLine
+                } catch (error) {
+                    bookInfoDiv.innerHTML = "<div style='color: red'>" + error + "</div>"
+                }
+            }
+            
+            function initialize() {
+                numInput = document.forms["isbnInput"]["isbn"];
+                bookInfoDiv = document.getElementById("bookInfo")
+            }
+            
+        // --></script>
 	</head>
-	<body>
+	<body onload="initialize()">
 
 		<h1>Book Scanner</h1>
         
