@@ -20,9 +20,18 @@
             async function updateBookInfo() {
                 const isbn = numInput.value;
                 try {
-                const bookData = await fetch("https://openlibrary.org/isbn/" 
-                                             + isbn);
-                const titleLine = "<h2>" + bookData.title + "</h2>";
+                    const requestPath = 
+                          "https://openlibrary.org/api/books?bibkeys=ISBN:" + 
+                          isbn + "&jscmd=details&format=json";
+                    const jsonHeading = "\"ISBN:" + isbn + "\"";
+                    const bookDataRaw = await fetch(requestPath);
+                    console.log(bookDataRaw)
+                    const intermediate1 = JSON.stringify(bookDataRaw);
+                    console.log(intermediate1);
+                    const intermediate2 = intermediate1.substring(23);
+                    console.log(intermediate2);
+                    const bookData = JSON.parse(intermediate2);
+                const titleLine = "<h2>" + bookData.details.title + "</h2>";
                 const authorLine = "<h3>" + bookData.authors + "</h3>";
                 bookInfoDiv.innerHTML = titleLine + authorLine
                 } catch (error) {
@@ -44,7 +53,7 @@
         <form name="isbnInput" action="">
             <label for="isbn">ISBN-13</label>
             <input name="isbn" type="number" maxlength="13" value="9780000000002" />
-            <button onclick="updateBookInfo()">Look Up</button>
+            <button type="button" onclick="updateBookInfo()">Look Up</button>
         </form>
         
         <div style="color: red; font-weight: bold">DRAFT</div>
