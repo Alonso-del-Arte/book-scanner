@@ -10,10 +10,16 @@
         <script type="application/javascript"><!-- 
             
             var numInput, bookInfoDiv;
-            
-            async function lookUp(isbn) {
-                const response = await fetch("https://openlibrary.org/isbn/" 
-                                             + isbn);
+
+			async function getCover() {
+                let isbn_cover = document.getElementById("isbn").value;
+                const response = await fetch(`https://cover.openlibrary.org/b/isbn/${isbn_cover}-M.jpg`);
+                return await response.json()
+            }
+			
+            async function lookUp() {
+				let query_formatted = document.getElementById("").value.replaceAll(' ', '+');
+                const response = await fetch(`https://openlibrary.org/search.json?q=${query_formatted}`);
                 return await response.json()
             }
             
@@ -53,9 +59,12 @@
        <div style="color: red; font-weight: bold">DRAFT</div>
 <p>The idea is that this will be able to look up an ISBN that you type or that you scan with your phone's camera. But I'm stymied at how to even get data from Open Library without tripping up a bunch of CORS errors.</p> 
         <form name="isbnInput" action="">
+			<input id="query" type="text" placeholder="Title or Author"/>
+			<button type="button" onclick="lookUp()">Get Book Info by Title or Author</button>
             <label for="isbn">ISBN-13</label>
-            <input name="isbn" type="number" maxlength="13" value="9780000000002" />
-            <button type="button" onclick="updateBookInfo()">Look Up</button>
+            <input name="isbn" id="isbn" type="number" maxlength="13" value="9780000000002" />
+            <button type="button" onclick="updateBookInfo()">UpdateBookInfo</button>
+			<button type="button" onclick="getCover()">Get Cover</button>
         </form>
         
         <div style="color: red; font-weight: bold">DRAFT</div>
