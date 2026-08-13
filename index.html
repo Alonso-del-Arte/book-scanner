@@ -19,13 +19,14 @@
             
             async function updateBookInfo() {
                 const isbn = numInput.value;
+                console.log(isbn);
                 try {
                     const requestPath = 
                           "https://openlibrary.org/api/books?bibkeys=ISBN:" + 
                           isbn + "&jscmd=details&format=json";
                     const jsonHeading = "\"ISBN:" + isbn + "\"";
                     const bookDataRaw = await fetch(requestPath);
-                    console.log(bookDataRaw)
+                    console.log(bookDataRaw);
                     const intermediate1 = JSON.stringify(bookDataRaw);
                     console.log(intermediate1);
                     const intermediate2 = intermediate1.substring(23);
