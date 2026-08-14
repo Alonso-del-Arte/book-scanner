@@ -60,6 +60,7 @@
                         const publisherLine = "<p>Publisher: " + (details.publishers ? details.publishers[0] : 'Unknown') + "</p>";
                         const yearLine = "<p>Year: " + (details.publish_date ? details.publish_date : 'Unknown') + "</p>";
                         bookInfoDiv.innerHTML = titleLine + authorLine + publisherLine + yearLine;
+                        getCover();
                     } else {
                         bookInfoDiv.innerHTML = "<div style='color: red'>Book not found for ISBN: " + isbn + "</div>";
                     }
@@ -77,18 +78,12 @@
 	<body onload="initialize()">
 
 		<h1>Book Scanner</h1>
-       <div style="color: red; font-weight: bold">DRAFT</div>
         <form name="isbnInput" action="">
-			<input id="query" type="text" placeholder="Title or Author"/>
-			<button type="button" onclick="lookUp()">Get Book Info by Title or Author</button>
             <label for="isbn">ISBN-13</label>
             <input name="isbn" id="isbn" type="number" maxlength="13" value="9780451524935" />
-            <button type="button" onclick="updateBookInfo()">UpdateBookInfo</button>
-			<button type="button" onclick="getCover()">Get Cover</button>
+            <button type="button" onclick="updateBookInfo()">Look Up</button>
         </form>
-        
-        <div style="color: red; font-weight: bold">DRAFT</div>
-        
+                
         <div id="bookInfo">No book scanned yet</div>
 
 	</body>
