@@ -42,6 +42,36 @@
                 }
             }
             
+            // This function based on tutorial from
+// https://www.linkedin.com/pulse/using-barcode-detection-api-build-browser-based-web-scanner-c3kge/
+            async function scan() {
+                const video = document.getElementById("video");
+                const barcodeDetector = new BarcodeDetector({
+                    formats: ["ean_13"]
+                });
+                try {
+    const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
+    video.srcObject = stream; 
+    video.play();
+    video.addEventListener("play", async () => {
+        try {
+          const barcodes = await barcodeDetector.detect(video); 
+          if (barcodes.length > 0) {
+            numInput.value = barcodes[0].rawValue;
+          }
+        } catch (err) {
+          console.error("Error detecting barcode:", err);
+        }
+        await new Promise(resolve => setTimeout(resolve, 100)); // Add delay for performance
+      }
+    );
+  } catch (error) {
+    console.error("Error accessing camera:", error);
+    alert("Unable to access the camera. Please check permissions or run the code on a secure server.");
+  }
+}
+            
+            
             async function updateBookInfo() {
                 const isbn = numInput.value;
                 console.log(isbn);
@@ -72,7 +102,13 @@
             function initialize() {
                 numInput = document.forms["isbnInput"]["isbn"];
                 bookInfoDiv = document.getElementById("bookInfo");
+                const scanDisabled = !("BarcodeDetector" in window)
+                document.getElementById("scan").disabled = scanDisabled;
+                if (scanDisabled) {
+                    document.getElementById("video").style = "display: none";
+                }
             }
+            
         </script>
 	</head>
 	<body onload="initialize()">
@@ -81,8 +117,10 @@
         <form name="isbnInput" action="">
             <label for="isbn">ISBN-13</label>
             <input name="isbn" id="isbn" type="number" maxlength="13" value="9780451524935" />
+            <button id="scan" type="button" onclick="scan()">Scan</button>
             <button type="button" onclick="updateBookInfo()">Look Up</button>
         </form>
+        <video id="video" autoplay></video>
                 
         <div id="bookInfo">No book scanned yet</div>
 
