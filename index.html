@@ -54,16 +54,22 @@
     video.srcObject = stream; 
     video.play();
     video.addEventListener("play", async () => {
-        try {
-          const barcodes = await barcodeDetector.detect(video); 
-          if (barcodes.length > 0) {
-            numInput.value = barcodes[0].rawValue;
-          }
-        } catch (err) {
-          console.error("Error detecting barcode:", err);
+        var keepLooking = true;
+        while (keepLooking) {
+            try {
+                const barcodes = await barcodeDetector.detect(video); 
+                if (barcodes.length > 0) {
+                    numInput.value = barcodes[0].rawValue;
+                    keepLooking = false;
+                }
+            } catch (err) {
+                console.error("Error detecting barcode:", err);
+            }
+            await new Promise(resolve => setTimeout(resolve, 100));
         }
-        await new Promise(resolve => setTimeout(resolve, 100));
-      }
+        video.stop();
+        video.style.display = "none";
+    }
     );
   } catch (error) {
     console.error("Error accessing camera:", error);
